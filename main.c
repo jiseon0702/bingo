@@ -1,24 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
-int N;
+#define N 5
 
-#define ROWS N
-#define COLS N
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
-int initiate_bingo(int);
-int print_bingo(int);
+void initiate_bingo();
+void print_bingo();
 
 int main(int argc, char *argv[])
 {
 	
 	
-	int N,M;
-	int user[ROWS][COLS];
-	int com[ROWS][COLS];
+	int M=0;
 	
-	printf("몇 줄 빙고를 할 것 입니까? : ");
-	scanf("%i",&N);
+	
+\
 	do
 	{
 		printf("\n몇 줄을 완성해야 이기는 게임을 할 것 입니까? %i 이하로 선택해주세요 : ",N+N+2);
@@ -26,47 +22,51 @@ int main(int argc, char *argv[])
 	}
 	while(M>N+N+2);
 	
-	printf("당신은 %i 줄 빙고를 택하였고, %i 줄을 완성해야 이깁니다! \n 게임을 시작합니다!",N,M);
-	printf("\n--------------------------------------------------------------------------------------");
+	int user[N][N];
+	int com[N][N];
 	
-	initiabe_bingo(user[ROWS][COLS]);
-	print_bingo(user[ROWS][COLS]);
-	printf("\n--------------------------------------------------");
-	initiabe_bingo(com[ROWS][COLS]);
-	print_bingo(com[ROWS][COLS]);
+	printf("당신은 %i 줄 빙고를 택하였고, %i 줄을 완성해야 이깁니다! \n 게임을 시작합니다!",N,M);
+	printf("\n--------------------------------------------------------------------------------------\n");
+	
+	initiate_bingo(N,user);
+	print_bingo(N,user);
+
+	initiate_bingo(N,com);
+	print_bingo(N,com);
 	
 	return 0;
 	
 }
 
-int initiate_bingo(int table[ROWS][COLS])
+void initiate_bingo(int n,int table[N][N])
 {
 	int i,j;
-	int max=N*N;
+	int max=n*n;
 	
 	srand((unsigned)time(NULL));
-	for (i=0;i<N;i++)
+	
+	for (i=0;i<n;i++)
 	{
-		for(j=0;j<N;j++)
-			table[i][j]=1+rand()%max;
+		for(j=0;j<n;j++)
+			table[i][j]=1+rand()%max; 
 	}
 	
-	return table[N][N];
 		
 	
 }
-int print_bingo(int table[ROWS][COLS])
+void print_bingo(int n,int table[N][N])
 	{
 		int i,j;
 		
-		for(i=0;i<N;i++)
-		{
+		for(j=0;j<n;j++){
+		
+			for(i=0;i<n;i++)
+			{
 			printf("%d ",table[i][j]);
+			}
+	
+		printf("\n");		
 		}
-		
-		printf("\n");
-		
-	return;
 	
 	}
 	
