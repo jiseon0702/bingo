@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 void initiate_bingo(int);
@@ -26,10 +27,10 @@ int main(int argc, char *argv[])
 	printf("당신은 %i 줄 빙고를 택하였고, %i 줄을 완성해야 이깁니다! \n 게임을 시작합니다!",N,M);
 	printf("\n--------------------------------------------------------------------------------------");
 	
-	initiabe_bingo(N,user);
+	initiate_bingo(N,user);
 	print_bingo(N,user);
 
-	initiabe_bingo(N,com);
+	initiate_bingo(N,com);
 	print_bingo(N,com);
 	
 	return 0;
@@ -46,7 +47,7 @@ void initiate_bingo(int n,int table[n][n])
 	for (i=0;i<n;i++)
 	{
 		for(j=0;j<n;j++)
-			table[i][j]=1+rand()%max;
+			table[i][j]=1+rand()%max; 
 	}
 	
 		
@@ -65,7 +66,7 @@ void print_bingo(int n,int table[n][n])
 	}
 		printf("\n");
 		
-	return;
+	
 	
 	}
 	
