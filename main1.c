@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
 void initiate_bingo(int n,int table[n][n])
 {
-	int i,j;
+	int i,j,a;
 	int max=n*n;
 	
 	srand((unsigned)time(NULL));
@@ -46,7 +46,8 @@ void initiate_bingo(int n,int table[n][n])
 	for (i=0;i<n;i++)
 	{
 		for(j=0;j<n;j++)
-			table[i][j]=1+rand()%max;
+			a=1+rand()%max;
+			
 	}
 	
 		
@@ -69,4 +70,11 @@ void print_bingo(int n,int table[n][n])
 	
 	}
 	
-	
+int same_number(int n, int a, int table[n][n])
+{
+	int i,j;
+	for(j=0;j<n,j++){
+		
+			for(i=0;i<n;i++)
+			{ 
+	}	
