@@ -20,8 +20,7 @@ int main(int argc, char *argv[])
 		printf("\n몇 줄을 완성해야 이기는 게임을 할 것 입니까? %i 이하로 선택해주세요 : ",N+N+2);
 		scanf("%i",&M);		
 	}
-	while(M>N+N+2);
-	
+	while(M>N+N+2);	
 	int user[N][N];
 	int com[N][N];
 	

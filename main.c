@@ -96,22 +96,37 @@ void print_bingo(int table[N][N])
 		}
 	
 	}
-get_number_byMe(int table1[N][N],int table2[N][N]) 
+get_number_byMe(int table[N][N]) 
 {
 	int i,j;
 	int my_number; //내가 선택한 숫자 
-	int table1_number;
-	int table2_number;
+	int table_number;
 	int same=500; //중복 됐을 경우 
 	
 	do
 	{
 	
-		printf("1~25까지의 숫자를 선택해주세요 ! : ");
+		printf("\n 1~25까지의 숫자를 선택해주세요 ! : ");
 		scanf("%i",my_number);
 		
-	
-							
+		
+		if(my_number>25&&my_number<1)
+		same=0;
+		
+		for(i=0;i<N;i++)
+			{
+			for(j=0;j<N;j++)
+				table[i][j]=table_number;
+				if(table_number==my_number)
+				same=0;
+				break; //for문을 나온다.
+			}
+		
+		if(same==0)
+		printf("\n 오류 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		else
+		printf("당신이 선택한 숫자는 %i 입니다",my_number);
+								
 	}
 	while((1<=my_number&&my_number<=25)||same!=0);
 }
