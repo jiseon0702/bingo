@@ -10,7 +10,7 @@ int com_choice_number=0;//컴퓨터가 선택한 숫자
 void initiate_bingo();
 void print_bingo();
 int get_number_byMe();
-
+int process_bingo();
 
 int main(int argc, char *argv[])
 {
@@ -38,7 +38,8 @@ int main(int argc, char *argv[])
 	initiate_bingo(com);
 	get_number_byMe(user);
 	printf("\n 사용자가 이거 뽑은거 맞죠?  : %i",my_choice_number);
-	get_number_byCom(user);
+	process_bingo(my_choice_number,user);
+	print_bingo(user);
 	
 	return 0;
 	
@@ -155,20 +156,45 @@ int get_number_byCom(int table[N][N])
 	do
 	{
 		same=0; //do를 다시 거칠 때 same의 초기화
-		com_choice_number=rand()%max+1 ;
-	
+		com_choice_number=rand()%max+1;
+		
+		{
 		for(i=0;i<N;i++)
+			{
 			for(j=0;j<N;j++)
 				if(table[N][N]==com_choice_number)
 					{
 					same=1;
 					break;
 					}
-		 
-	}while(same==0);
+		 	}
+		}
+	}while(same==1);
 	
-	printf("컴퓨터가 임의로 선택한 숫자는 %i 입니다",com_choice_number);
+	printf("\n 컴퓨터가 임의로 선택한 숫자는 %i 입니다",com_choice_number);
 	
 	return com_choice_number;
 }
 
+int process_bingo(int insert_number,int table[N][N])
+{
+	int i,j;
+	
+	for(i=0;i<N;i++)
+	{
+		for(j=0;j<N;j++)
+		if(table[i][j]==insert_number)
+		{
+		table[i][j]=-1;
+		break;
+		}
+	}
+	
+	return 0;
+
+}
+int count_bingo(int table[N][N])
+{
+	return 0;
+	
+}
