@@ -2,11 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 #define N 5
- //전역변수로 둔다 
+int bingo_check[N*N]; //전역변수로 둔다 
 int user[N][N];
 int com[N][N];
-int my_choice_number=0; //내가 선택한 숫자
-int com_choice_number=0;//컴퓨터가 선택한 숫자 
+
 void initiate_bingo();
 void print_bingo();
 int get_number_byMe();
@@ -15,9 +14,12 @@ int get_number_byMe();
 int main(int argc, char *argv[])
 {
 	
-	int i,j;
+	int i,j,get_number_byMe,get_number_byCom; 
 	int M=0;
-	
+	{
+	for(i=0;i<(N*N);i++)
+		bingo_check[i]=i; // 숫자를 선택할 때 이미 선택이 되어있는건지 확인 하기 위해 먼저 1~25를 만들어 놓아 둔다. 
+	}
 	srand((unsigned)time(NULL));
 			
 	do
@@ -34,12 +36,10 @@ int main(int argc, char *argv[])
 
 	initiate_bingo(user);
 	print_bingo(user);
-
+	
 	initiate_bingo(com);
 	get_number_byMe(user);
-	printf("\n 사용자가 이거 뽑은거 맞죠?  : %i",my_choice_number);
-	get_number_byCom(user);
-	
+
 	return 0;
 	
 }
@@ -76,12 +76,11 @@ void initiate_bingo(int table[N][N])
 			{
 				turn=rand()%(N*N)+1;//1~25숫자중 뽑아본다 
 					
-					if(bingo[turn-1]==0)//혹시 bingo 배열 25개중(bingo[0]~bingo[24]) 이 숫자가 뽑힌적이 없다면 
+					if(bingo[turn-1]==0)//혹시 bingo 배열 25개중 이 숫자가 뽑힌적이 없다면 
 					{
 						table[i][j]=turn;// 그 숫자를 table에 대입한다 
-						bingo[turn-1]=1;//그리고 그 숫자를 다시 대입하지 못하도록 1의 값을 지정한다.그리고 break로 while 문을 빠져나온다. 
-						break; //만약 rand중 중복된 숫자가 뽑힌다면 if문을 거치지 않고  다시 while문을 돌아 랜덤으로 숫자가 뽑힌다.
-							 
+						bingo[turn-1]=1;//그리고 그 숫자를 다시 대입하지 못하도록 1의 값을 지정한다 
+						break;//만약 rand중 중복된 숫자가 뽑힌다면 if문을 거치지 않고  다시 while문을 돌아 랜덤으로 숫자가 뽑힌다 
 					}
 					
 			}
@@ -106,69 +105,42 @@ void print_bingo(int table[N][N])
 int get_number_byMe(int table[N][N]) 
 {
 	int i,j;
-	int same=0;
+	int my_number=0; //내가 선택한 숫자 
+	int same=0; // 
 	
 	
 	
 	
 	do
-	{	same=0;//다시 실행하였을 때 same의 초기화 
-	
+	{
 		printf("\n 1~25까지의 숫자를 선택해주세요 ! : ");
-		scanf("%i",&my_choice_number);
+		scanf("%i",&my_number);
 		
-		if(my_choice_number>25||my_choice_number<1)
-		same=0; //사용자의 숫자 선택이 1보다 작고 25보다 컸을 때 same = 0 으로 바꿔준다. 
+		if(my_number>25||my_number<1)
+		same=0;
 
 		else
 		{
 			for(i=0;i<N;i++)
-				{for(j=0;j<N;j++)
-					
-					if(table[i][j]==my_choice_number)
-					{
+				for(j=0;j<N;j++)
+				{
+					if(table[i][j]==my_number)
 					same=1;
 					break;
-					} // 만약 사용자가 선택한 숫자가 현재 user판에 있는 숫자라면 same=1을 만들어주고 for문을 통과한다. 
 				}
 				
 		}
 		
-		if(same==0)//만약 same이 0이라면 오류라고 창을 띄운다. 
+		if(same==0)
 		printf("\n 오류 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 						
 	}
-	while(same==0);//same=0일 동안 계속 실행 시켜준다. 즉, 같은 숫자가 있을 시 same이 1이므로 빠져나오게 된다. 
+	while(same==0);
 	
-	printf("\n 당신이 선택한 숫자는 %i 입니다",my_choice_number);
+	printf("\n 당신이 선택한 숫자는 %i 입니다",my_number);
 	
 	
-	return my_choice_number;
+	return my_number;
 	
 }
-int get_number_byCom(int table[N][N])
-{
-	int i,j;
-	int same=0; //같은 숫자를 뽑았는지를 알아보기 위한 변수 
-	int max=N*N;
-	do
-	{
-		same=0; //do를 다시 거칠 때 same의 초기화
-		com_choice_number=rand()%max+1 ;
-	
-		for(i=0;i<N;i++)
-			for(j=0;j<N;j++)
-				if(table[N][N]==com_choice_number)
-					{
-					same=1;
-					break;
-					}
-		 
-	}while(same==0);
-	
-	printf("컴퓨터가 임의로 선택한 숫자는 %i 입니다",com_choice_number);
-	
-	return com_choice_number;
-}
-
