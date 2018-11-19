@@ -2,45 +2,70 @@
 #include <stdlib.h>
 #include <time.h>
 #define N 5
+#define M 3
  //전역변수로 둔다 
 int user[N][N];
 int com[N][N];
-int my_choice_number=0; //내가 선택한 숫자
+int my_choice_number=0; //내가 선택한 숫자 
 int com_choice_number=0;//컴퓨터가 선택한 숫자 
-void initiate_bingo();
+int my_win_number=0; //  내가 빙고 달성한 숫자 
+int com_win_number=0; // 컴퓨터가 빙고 달성한 숫자
+int turn=0; 
+void initiate_bingo();// 컴퓨터가 빙고 선택한 숫자 
 void print_bingo();
 int get_number_byMe();
 int process_bingo();
-
+int count_bingo();
+ 
 int main(int argc, char *argv[])
 {
 	
 	int i,j;
-	int M=0;
-	
+
 	srand((unsigned)time(NULL));
 			
-	do
-	{
-		printf("\n몇 줄을 완성해야 이기는 게임을 할 것 입니까? %i 이하로 선택해주세요 : ",N+N+2); //빙고 승리조건인 M 입력 
-		scanf("%i",&M);		
-	}
-	while(M>N+N+2);
 	
-
 	
-	printf("당신은 %i 줄 빙고를 택하였고, %i 줄을 완성해야 이깁니다! \n 게임을 시작합니다!",N,M);
+	printf("당신은 %i 줄 빙고를  %i 줄을 완성해야 이깁니다! \n 게임을 시작합니다!",N,M);
 	printf("\n--------------------------------------------------------------------------------------\n");
 
 	initiate_bingo(user);
 	print_bingo(user);
 
 	initiate_bingo(com);
+	do
+	{
+	turn++;
 	get_number_byMe(user);
 	printf("\n 사용자가 이거 뽑은거 맞죠?  : %i",my_choice_number);
 	process_bingo(my_choice_number,user);
+	process_bingo(my_choice_number,com);
 	print_bingo(user);
+	count_bingo(my_win_number,user);
+	count_bingo(com_win_number,com);
+	{
+		if(my_win_number>=M||com_win_number>=M)
+		break;
+	}
+	get_number_byCom(user);
+	process_bingo(com_choice_number,user);
+	process_bingo(com_choice_number,com);
+	print_bingo(user);
+	count_bingo(my_win_number,user);
+	count_bingo(com_win_number,com);
+	printf("\n %i",my_win_number);
+	printf("\n %i",com_win_number);
+	}
+	while(my_win_number<M&&com_win_number<M);
 	
+	if(my_win_number>com_win_number)
+	printf("\n 당신이 이겼습니다!!!!!! %i번째에서 승부가 났습니다",my_win_number);
+	
+	else if(my_win_number<com_win_number)
+	printf("\n 컴퓨터가 이겼습니다 ㅠㅠㅠㅠㅠ %i 번째에서 승부가 났습니다.",com_win_number);
+	
+	else //my_win_number==com_win_number인 경우입니다. 
+	printf("당신은 컴퓨터랑 비겼네요! %i번째에서 승부가 났습니다.",my_win_number);
 	return 0;
 	
 }
@@ -94,7 +119,6 @@ void print_bingo(int table[N][N])
 		
 		printf("\n---------<나의 현재 빙고판!!>------------\n");
 		for(j=0;j<N;j++){
-		
 			for(i=0;i<N;i++)
 			{
 			printf("%d ",table[i][j]); // 테이블 입력값 보여주기 
@@ -162,14 +186,14 @@ int get_number_byCom(int table[N][N])
 		for(i=0;i<N;i++)
 			{
 			for(j=0;j<N;j++)
-				if(table[N][N]==com_choice_number)
+				if(table[i][j]==com_choice_number)
 					{
 					same=1;
 					break;
 					}
 		 	}
 		}
-	}while(same==1);
+	}while(same==0);
 	
 	printf("\n 컴퓨터가 임의로 선택한 숫자는 %i 입니다",com_choice_number);
 	
@@ -193,8 +217,49 @@ int process_bingo(int insert_number,int table[N][N])
 	return 0;
 
 }
-int count_bingo(int table[N][N])
+int count_bingo(int count, int table[N][N])
 {
-	return 0;
+	int i,j;
+	int sum=0;
+	
+	//가로줄 세는 법 
+	for((i=0,sum=0);i<N;i++)
+		{for(j=0;j<N;j++)
+			sum+=table[i][j];
+			
+			if(sum==(-N))
+			count++;
+			
+		}
+	//세로줄 세는 법	
+	for((j=0,sum=0);j<N;j++)
+		{for(i=0;i<N;i++)
+			sum+=table[i][j];
+			
+			if(sum==(-N))
+			count++;
+			
+		}
+	//y=x방향의 대각선 세는법
+	{
+	for((i=N-1,sum=0);(-1<i);i--)
+		sum+=table[i][i];
+		
+		if(sum==(-N))
+		count++;
+	}
+	
+	//y=-x방향의 대각선 세는법 
+	{
+	for((i=0,sum=0);i<N;i++)
+		sum+=table[i][i];
+		
+		if(sum==-N)
+		count++;
+		
+	 } 
+	 
+	 
+	return count;
 	
 }
