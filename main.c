@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #define N 5
-#define M 3
+#define M 5
  //전역변수로 둔다 
 int user[N][N];
 int com[N][N];
@@ -37,12 +37,12 @@ int main(int argc, char *argv[])
 	{
 	turn++;
 	get_number_byMe(user);
-	printf("\n 사용자가 이거 뽑은거 맞죠?  : %i",my_choice_number);
 	process_bingo(my_choice_number,user);
 	process_bingo(my_choice_number,com);
 	print_bingo(user);
-	count_bingo(my_win_number,user);
-	count_bingo(com_win_number,com);
+	
+	my_win_number=count_bingo(user);
+	com_win_number=count_bingo(com);
 	{
 		if(my_win_number>=M||com_win_number>=M)
 		break;
@@ -51,21 +51,23 @@ int main(int argc, char *argv[])
 	process_bingo(com_choice_number,user);
 	process_bingo(com_choice_number,com);
 	print_bingo(user);
-	count_bingo(my_win_number,user);
-	count_bingo(com_win_number,com);
+	
+	my_win_number=count_bingo(user);
+	com_win_number=count_bingo(com);
+
 	printf("\n %i",my_win_number);
 	printf("\n %i",com_win_number);
 	}
 	while(my_win_number<M&&com_win_number<M);
 	
 	if(my_win_number>com_win_number)
-	printf("\n 당신이 이겼습니다!!!!!! %i번째에서 승부가 났습니다",my_win_number);
+	printf("\n 당신이 이겼습니다!!!!!! %i번째에서 승부가 났습니다",turn);
 	
 	else if(my_win_number<com_win_number)
-	printf("\n 컴퓨터가 이겼습니다 ㅠㅠㅠㅠㅠ %i 번째에서 승부가 났습니다.",com_win_number);
+	printf("\n 컴퓨터가 이겼습니다 ㅠㅠㅠㅠㅠ %i 번째에서 승부가 났습니다.",turn);
 	
 	else //my_win_number==com_win_number인 경우입니다. 
-	printf("당신은 컴퓨터랑 비겼네요! %i번째에서 승부가 났습니다.",my_win_number);
+	printf("당신은 컴퓨터랑 비겼네요! %i번째에서 승부가 났습니다.",turn);
 	return 0;
 	
 }
@@ -217,49 +219,72 @@ int process_bingo(int insert_number,int table[N][N])
 	return 0;
 
 }
-int count_bingo(int count, int table[N][N])
+int count_bingo(int table[N][N])
 {
 	int i,j;
 	int sum=0;
-	
+	int count=0;
 	//가로줄 세는 법 
-	for((i=0,sum=0);i<N;i++)
-		{for(j=0;j<N;j++)
-			sum+=table[i][j];
-			
-			if(sum==(-N))
-			count++;
-			
-		}
-	//세로줄 세는 법	
-	for((j=0,sum=0);j<N;j++)
-		{for(i=0;i<N;i++)
-			sum+=table[i][j];
-			
-			if(sum==(-N))
-			count++;
-			
-		}
-	//y=x방향의 대각선 세는법
+	for(i=0;i<N;i++)
 	{
-	for((i=N-1,sum=0);(-1<i);i--)
-		sum+=table[i][i];
+	
+		sum=0;
+		{
+			for(j=0;j<N;j++)
+			{
+			sum+=table[i][j];
+			
+			
+	
+			if(sum==(-N))
+			count++;
+			}
+		}
+	}
+	//세로줄 세는 법	
+	for(j=0;j<N;j++)
+	{
+		sum=0;
+			
+				for(i=0;i<N;i++)
+			{	sum+=table[i][j];
+			
+			
+				if(sum==(-N))
+				count++;
+			
+			}
+	}
+	
+	//y=x방향으로 세는 법
+	{
+		sum=0;
+		for(i=0;i<N;i++)
+			{
+			sum+=table[i][i];
+			
+			if(sum==(-N))
+			count++;
+	 		}
+	}
+	
+	//y=-x방향으로 세는 법
+	{
+		sum=0;
+		for(i=0;i<N;i++)
+		{
+			sum+=table[i][N-i-1];
 		
 		if(sum==(-N))
 		count++;
-	}
-	
-	//y=-x방향의 대각선 세는법 
-	{
-	for((i=0,sum=0);i<N;i++)
-		sum+=table[i][i];
-		
-		if(sum==-N)
-		count++;
+		}
 		
 	 } 
-	 
-	 
-	return count;
-	
+return count;
 }
+		
+	
+	 
+	
+	
+
