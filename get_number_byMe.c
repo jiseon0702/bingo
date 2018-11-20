@@ -1,11 +1,16 @@
 #define N 5
 #define M 5
-int get_number_byMe(int table[N][N]) 
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+extern int my_choice_number;
+
+int get_number_byMe(int table[N][N]) /*여기서 컴퓨터와 유저테이블을 둘다 확인하지 않는 이유는 
+										유저테이블과 컴퓨터 테이블의 현재 지워지지 않은 숫자는 같기 때문에 유저만 확인해도 된다.*/ 
 {
 	int i,j;
 	int same=0;
-	
-	
 	
 	
 	do
@@ -20,12 +25,13 @@ int get_number_byMe(int table[N][N])
 		else
 		{
 			for(i=0;i<N;i++)
-				{for(j=0;j<N;j++)
+				{
+					for(j=0;j<N;j++)
 					
 					if(table[i][j]==my_choice_number)
 					{
-					same=1;
-					break;
+						same=1;
+						break;
 					} // 만약 사용자가 선택한 숫자가 현재 user판에 있는 숫자라면 same=1을 만들어주고 for문을 통과한다. 
 				}
 				
@@ -37,7 +43,7 @@ int get_number_byMe(int table[N][N])
 						
 	}
 	while(same==0);//same=0일 동안 계속 실행 시켜준다. 즉, 같은 숫자가 있을 시 same이 1이므로 빠져나오게 된다. 
-					//내가 선택한 숫자가 user 테이블에 있을 시 지울 수 있으므로 while문을 빠져나온다. 
+					//내가 선택한 숫자가 user 테이블에 있을 시 while문을 빠져나온다. 
 	
 	printf("\n 당신이 선택한 숫자는 %i 입니다",my_choice_number);
 	

@@ -1,6 +1,8 @@
 #define N 5
 #define M 5
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 void initiate_bingo(int table[N][N])
 	{
@@ -13,7 +15,8 @@ void initiate_bingo(int table[N][N])
 		
 		
 
-		for (i=0;i<N;i++){
+		for (i=0;i<N;i++)
+		{
 			for(j=0;j<N;j++)
 			{
 				table[i][j]=0;
@@ -43,7 +46,7 @@ void initiate_bingo(int table[N][N])
 							 
 					}
 			}
-				while(1);
+			while(1);
 					
 			
 		}
